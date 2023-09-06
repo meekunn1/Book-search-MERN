@@ -6,10 +6,10 @@ const loginError = new AuthenticationError(
   "email does not exist or password does not match"
 );
 
-const resolver = {
+const resolvers = {
   Query: {
-    me: async (parent, { ID }) => {
-      return User.find({ userId: ID });
+    me: async (parent, args, context) => {
+      return User.find({ _id: context.user._id });
     },
   },
 
@@ -31,7 +31,7 @@ const resolver = {
       const token = signToken(user);
       return { token, user };
     },
-    addBook: async (parent, { userId, body }) => {
+    saveBook: async (parent, { userId, body }) => {
       return User.findOneAndUpdate(
         { _id: userId },
         { $addToSet: { saveBooks: body } },
@@ -47,3 +47,5 @@ const resolver = {
     },
   },
 };
+
+module.exports = resolvers
