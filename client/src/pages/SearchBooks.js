@@ -78,7 +78,7 @@ const SearchBooks = () => {
 
     try {
       // const response = await saveBook(bookToSave, token);
-      const mutationResponse = await gqlSaveBook({variables: {savedBooks : bookToSave}});
+      const mutationResponse = await gqlSaveBook({variables: {body: {...bookToSave}}});
 
       if (!mutationResponse.ok) {
         throw new Error('something went wrong!');

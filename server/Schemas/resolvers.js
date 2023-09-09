@@ -9,7 +9,13 @@ const loginError = new AuthenticationError(
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
-      return User.find({ _id: context.user._id });
+      if (context.user) {
+        const userData = await User.findOne({ _id: context.user._id });
+
+        return userData;
+      }
+
+      throw new AuthenticationError('Not logged in');
     },
   },
 
@@ -31,21 +37,21 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveBook: async (parent, { userId, body }) => {
+    saveBook: async (parent, { body }, context) => {
       return User.findOneAndUpdate(
-        { _id: userId },
+        { _id: context.user._id },
         { $addToSet: { saveBooks: body } },
-        { new: true, runValidators: true }
+        { new: true }
       );
     },
-    removeBook: async (parent, { userId, bookId }) => {
+    removeBook: async (parent, { bookId }, context) => {
       return User.findOneAndDelete(
-        { _id: userId },
-        { $pull: { saveBooks: { _id: bookId } } },
+        { _id: context.user._id },
+        { $pull: { saveBooks: { bookId } } },
         { new: true }
       );
     },
   },
 };
 
-module.exports = resolvers
+module.exports = resolvers;
