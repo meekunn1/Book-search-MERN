@@ -18,6 +18,9 @@ This project was converting an prebuilt app that used RESTful API, into a one us
 
 This is the [url](https://mysterious-earth-62949-8c38006a197b.herokuapp.com/) for the homepage. You can search a book by providing a valid title into the search bar. Use the "Login/Sign Up" button on the top right corner to create or log in as user. Once logged in, you will be able to save the searched books to your account. You can view or delete your saved books by going to the User page.
 
+![main page with empty search](https://github.com/meekunn1/Book-search-MERN/assets/126653060/7c90fe03-39fc-4a8c-9a23-ba8e87382c7e)
+![user page with empty books list](https://github.com/meekunn1/Book-search-MERN/assets/126653060/769dba68-c5ad-4243-9b92-0e4c56658a74)
+
 ## License
   
 [![license](https://img.shields.io/badge/License-MIT-green)](https://choosealicense.com/licenses/mit/)
