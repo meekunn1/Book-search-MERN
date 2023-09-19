@@ -37,21 +37,28 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveBook: async (parent, { body }, context) => {
-      return User.findOneAndUpdate(
+    saveBook: async (parent, { bookData }, context) => {
+      if(context.user){
+      const updateUser = User.findOneAndUpdate(
         { _id: context.user._id },
-        { $addToSet: { saveBooks: body } },
+        { $addToSet: { savedBooks: bookData } },
         { new: true }
       );
-    },
-    removeBook: async (parent, { bookId }, context) => {
-      return User.findOneAndDelete(
-        { _id: context.user._id },
-        { $pull: { saveBooks: { bookId } } },
-        { new: true }
-      );
-    },
+      return updateUser;
+    }
+  throw new AuthenticationError('you need to be logged in!');
   },
+    removeBook: async (parent, { bookId }, context) => {
+      if(context.user){
+        const updateUser = User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedBooks: {bookId} } },
+          { new: true }
+        );
+        return updateUser;
+      }
+    throw new AuthenticationError('you need to be logged in!');
+  }},
 };
 
 module.exports = resolvers;
